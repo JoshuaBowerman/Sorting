@@ -1,6 +1,8 @@
 package Sorting
 
-import "../Utils"
+import (
+	"../Utils"
+)
 
 func Merge_Sort(a []int) []int{
 
@@ -14,20 +16,28 @@ func Merge_Sort(a []int) []int{
 
 }
 
-func Split(a []int)(first,second []int){
+func Split(a []int)(first_half,second_half []int){
 	var half   = len(a) / 2
 	var first  = make([]int, half) 		// This makes a new array that will contain half the array
 	var second = make([]int, len(a) - half) // This one takes the other half and may have an extra item depending on rounding
 
+	for i := 0; i < half; i++{
+		first[i] = a[i]
+	}
+	for i := 0; i < len(a) - half; i++{
+		second[i] = a[half + i]
+	}
+
+	return first, second
 }
 
 /*
 	Keep in mind that this function requires 2 sorted lists
  */
 func Merge (a []int, b []int) []int{
-
 	var Result = make([]int,0)
-	for i := 0; i < len(a) + len(b); i++{
+	var t = len(a) + len(b)
+	for i := 0; i < t; i++{
 		if len(a) == 0{
 			Result = append(Result,b[0])
 			b = Utils.Delete(b,0)

@@ -1,6 +1,6 @@
 package Sorting
 
-var MethodList = []string{"Bubble","Merge"}
+var MethodList = []string{"Merge Sort","Bubble Sort"}
 var Method = 0
 
 func SelectMethod(m string) bool{
