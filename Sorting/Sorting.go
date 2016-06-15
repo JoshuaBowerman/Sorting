@@ -1,7 +1,7 @@
 package Sorting
 
-var MethodList = []string{"Merge Sort","Bubble Sort"}
-var Method = 0
+var MethodList = []string{"Merge Sort","Threaded Merge Sort","Bubble Sort"}
+var Method = 1
 
 func SelectMethod(m string) bool{
 	for i:= 0; i < len(MethodList); i++{
@@ -18,6 +18,8 @@ func Sort(a []int) []int{
 	case 0:
 		return Merge_Sort(a)
 	case 1:
+		return T_Merge_Sort(a)
+	case 2:
 		return Bubble_Sort(a)
 	}
 	return make([]int,0)

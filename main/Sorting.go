@@ -9,17 +9,37 @@ import (
 	"strings"
 )
 
-var ArraySize = 4
-var Array = Utils.GenArray(ArraySize)
+var ArraySize = 30000
 
 func main() {
+	fmt.Println("How Big Should The Array Be?")
+	fmt.Scanf("%d \n",&ArraySize)
+
 	fmt.Println("### Array Sorting ###")
 	fmt.Println("Sorting Method: ", Sorting.MethodList[Sorting.Method])
 	fmt.Println("Array Length:   ", ArraySize)
+	fmt.Scan()
+
+	var Array = Utils.GenArray(ArraySize)
+	var Sorted_Array = Sorting.Sort(Array)
+
 	if ArraySize <= 32 {
 		PrintArray("Scrambled Array",Array)
-		PrintArray("Sorted Array",Sorting.Sort(Array))
+		PrintArray("Sorted Array",Sorted_Array)
 	}
+	var isSorted = true
+	for i:= 0; i < ArraySize; i++{
+		if Sorted_Array[i] != i + 1 {
+			isSorted = false
+			break
+		}
+	}
+	if isSorted{
+		fmt.Println("The List Was Sucessfully Sorted")
+	} else {
+		fmt.Println("The List Was Not Sorted Sucessfully")
+	}
+
 
 }
 
@@ -38,3 +58,4 @@ func PrintArray(label string,a []int){
 	fmt.Printf(FString,IArray...)
 
 }
+
