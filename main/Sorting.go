@@ -7,11 +7,14 @@ import (
 	"math"
 	"strconv"
 	"strings"
+	"runtime"
+	"time"
 )
 
 var ArraySize = 30000
 
 func main() {
+	runtime.GOMAXPROCS(4)
 	fmt.Println("How Big Should The Array Be?")
 	fmt.Scanf("%d \n",&ArraySize)
 
@@ -21,8 +24,15 @@ func main() {
 	fmt.Scan()
 
 	var Array = Utils.GenArray(ArraySize)
+	var MTStartTime = time.Now()
+	var _ = Sorting.Sort(Array)
+	var MTTime = time.Since(MTStartTime)
+	fmt.Println("Multithreaded Time:  ", MTTime)
+	var TStartTime = time.Now()
+	Sorting.SelectMethod("Merge Sort")
 	var Sorted_Array = Sorting.Sort(Array)
-
+	var TTime = time.Since(TStartTime)
+	fmt.Println("Singlethreaded Time: ", TTime )
 	if ArraySize <= 32 {
 		PrintArray("Scrambled Array",Array)
 		PrintArray("Sorted Array",Sorted_Array)

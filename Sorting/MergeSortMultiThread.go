@@ -3,32 +3,34 @@ package Sorting
 import (
 	"../Utils"
 )
+
+
+
 func T_Merge_Sort (a []int) []int{
 	var ch = make(chan []int)
-	go Merge_Sort_Threaded(a,ch)
-	return <-ch
+	go Merge_Sort_Threaded(a,len(a),1,ch)
+	var t = <-ch
+	return t
+
 }
-func Merge_Sort_Threaded(a []int, ch chan []int){
+func Merge_Sort_Threaded(a []int,b int,c int, ch chan []int){
 
 	//If we have an array of size one, return that array
 	if len(a) == 1{
 		ch <- a
 	}
-	if(len(a) < 10000){
+	if(len(a) <= b/4){
 		var First_Half, Second_Half = TSplit(a)
-		var cha = make(chan []int)
-		var chb = make(chan []int)
-		Merge_Sort_Threaded(First_Half,  cha)
-		Merge_Sort_Threaded(Second_Half, chb)
-		var First_Sorted = <- cha
-		var Second_Sorted = <- chb
+		var First_Sorted = Merge_Sort(First_Half)
+		var Second_Sorted = Merge_Sort(Second_Half)
 		ch <- TMerge(First_Sorted,Second_Sorted)
 	} else {
 		var First_Half, Second_Half = TSplit(a)
 		var cha = make(chan []int)
 		var chb = make(chan []int)
-		go Merge_Sort_Threaded(First_Half,  cha)
-		go Merge_Sort_Threaded(Second_Half, chb)
+		go Merge_Sort_Threaded(First_Half,b,c+1, cha)
+		go Merge_Sort_Threaded(Second_Half,b,c+1, chb)
+
 		var First_Sorted = <-cha
 		var Second_Sorted = <-chb
 		ch <- TMerge(First_Sorted,Second_Sorted)
